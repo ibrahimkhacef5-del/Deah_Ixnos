@@ -17,24 +17,33 @@ def install_c_package(archive_path: Path) -> dict:
     with tarfile.open(archive_path, "r:gz") as tar:
         tar.extractall(path=extract_dir)
 
-    manifest_path = extract_dir / "manifest.json"
-    if not manifest_path.exists():
+    # البحث عن manifest.json في أي مكان داخل المجلد
+    manifest_path = None
+    for p in extract_dir.rglob("manifest.json"):
+        manifest_path = p
+        break
+
+    if not manifest_path:
         raise InstallationError("manifest.json غير موجود في الحزمة")
 
     manifest = json.loads(manifest_path.read_text())
     pkg_name = manifest.get("name", extract_dir.name)
 
+    # مجلد الحزمة الفعلي (اللي فيه manifest.json)
+    pkg_root = manifest_path.parent
+
     INCLUDE_DIR.mkdir(exist_ok=True)
     for header in manifest.get("headers", []):
-        src = extract_dir / header
+        src = pkg_root / header
         if src.exists():
             shutil.copy(src, INCLUDE_DIR / src.name)
 
     LIB_DIR.mkdir(exist_ok=True)
     for lib in manifest.get("libs", []):
-        src = extract_dir / lib
+        src = pkg_root / lib
         if src.exists():
             shutil.copy(src, LIB_DIR / src.name)
 
     mark_installed(pkg_name, manifest)
     return manifest
+

@@ -1,7 +1,7 @@
 import requests
 from pathlib import Path
 from daeh.core.cache import get_cache_path, is_cached
-from daeh.core.config import load_config
+from daeh.core.registry import load_registry
 from daeh.utils.errors import PackageNotFoundError
 
 def download_package(name: str, version: str = "latest") -> Path:
@@ -9,13 +9,17 @@ def download_package(name: str, version: str = "latest") -> Path:
     if is_cached(name, version):
         return get_cache_path(name, version)
 
-    config = load_config()
-    base_url = config["registry_url"].rsplit("/", 1)[0]
-    url = f"{base_url}/packages/{name}-{version}.tar.gz"
+    registry = load_registry()
+    packages = registry.get("packages", {})
 
-    response = requests.get(url, stream=True)
-    if response.status_code == 404:
+    if name not in packages:
         raise PackageNotFoundError(f"الحزمة {name} غير موجودة")
+
+    url = packages[name]["url"]
+    response = requests.get(url, stream=True)
+
+    if response.status_code == 404:
+        raise PackageNotFoundError(f"الحزمة {name} غير موجودة في الرابط")
 
     response.raise_for_status()
 
