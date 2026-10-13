@@ -1,0 +1,9 @@
+{
+    "name": "hello",
+    "version": "1.0.0",
+    "description": "مكتبة Hello World بسيطة",
+    "type": "shared",
+    "headers": ["include/hello.h"],
+    "libs": ["lib/libhello.so"],
+    "dependencies": []
+}
