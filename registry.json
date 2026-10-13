@@ -2,8 +2,13 @@
     "packages": {
         "hello": {
             "version": "1.0.0",
-            "description": "مكتبة Hello World بسيطة",
-            "url": "https://github.com/your-username/daeh-packages/raw/main/packages/hello-1.0.0.tar.gz"
+            "description": "مكتبة Hello",
+            "url": "https://github.com/ibrahimkhacef5-del/Deah_Ixnos/raw/main/packages/hello-1.0.0.tar.gz"
+        },
+        "mylib": {
+            "version": "2.0.0",
+            "description": "مكتبة من سيرفر خارجي",
+            "url": "https://example.com/packages/mylib-2.0.0.tar.gz"
         }
     }
 }
