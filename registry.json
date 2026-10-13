@@ -1,0 +1,9 @@
+{
+    "packages": {
+        "hello": {
+            "version": "1.0.0",
+            "description": "مكتبة Hello World بسيطة",
+            "url": "https://github.com/your-username/daeh-packages/raw/main/packages/hello-1.0.0.tar.gz"
+        }
+    }
+}
