@@ -1,0 +1,20 @@
+[project]
+name = "daeh"
+version = "0.1.0"
+description = "أداة إدارة حزم C بسيطة"
+requires-python = ">=3.9"
+dependencies = [
+    "requests>=2.31.0",
+    "click>=8.1.0",
+    "rich>=13.0.0",
+]
+
+[project.scripts]
+daeh = "daeh.cli:main"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
